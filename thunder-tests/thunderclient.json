@@ -1,0 +1,21 @@
+[
+  {
+    "_id": "6bfc4466-3626-4270-a8d8-88501362208e",
+    "colId": "8026b129-6ab0-41c9-a350-8f3d1e59503b",
+    "containerId": "650f169b-a188-4bed-96d3-ef1d5abf59a4",
+    "name": "Register",
+    "url": "{{baseUrl}}/api/register",
+    "method": "POST",
+    "sortNum": 10000,
+    "created": "2023-05-08T14:33:09.757Z",
+    "modified": "2023-05-08T14:34:35.391Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\": \"Lucas\",\n  \"email\": \"lucasbarque@gmail.com\",\n  \"password\": \"123123\"\n}",
+      "form": []
+    },
+    "tests": []
+  }
+]

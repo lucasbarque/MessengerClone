@@ -1,0 +1,17 @@
+[
+  {
+    "_id": "8026b129-6ab0-41c9-a350-8f3d1e59503b",
+    "colName": "Messenger",
+    "created": "2023-05-08T14:32:50.569Z",
+    "sortNum": 10000,
+    "folders": [
+      {
+        "_id": "650f169b-a188-4bed-96d3-ef1d5abf59a4",
+        "name": "Authentication",
+        "containerId": "",
+        "created": "2023-05-08T14:32:59.588Z",
+        "sortNum": 10000
+      }
+    ]
+  }
+]

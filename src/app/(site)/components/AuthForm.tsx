@@ -2,16 +2,29 @@
 
 import { Button } from "@/components/Button";
 import { Input } from "@/components/inputs/Input";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { AuthSocialButton } from "./AuthSocialButton";
 import { BsGithub, BsGoogle } from "react-icons/bs";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type Variant = "LOGIN" | "REGISTER";
 
 export function AuthForm() {
   const [variant, setVariant] = useState<Variant>("LOGIN");
   const [isLoading, setIsLoading] = useState(false);
+
+  const session = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (session?.status === "authenticated") {
+      router.push("/users");
+    }
+  }, [session?.status, router]);
 
   const toggleVariant = useCallback(() => {
     if (variant === "LOGIN") {
@@ -37,18 +50,50 @@ export function AuthForm() {
     setIsLoading(true);
 
     if (variant === "REGISTER") {
-      // Axios Register
+      axios
+        .post("/api/register", data)
+        .then(() => signIn("credentials", data))
+        .catch(() =>
+          toast.error("Ocorreu um erro. Tente novamente mais tarde!")
+        )
+        .finally(() => setIsLoading(false));
     }
 
     if (variant === "LOGIN") {
-      // Next Auth SignIn
+      signIn("credentials", {
+        ...data,
+        redirect: false,
+      })
+        .then((callback) => {
+          if (callback?.error) {
+            toast.error("Usuário ou senha inválidos.");
+          }
+
+          if (callback?.ok && !callback?.error) {
+            toast.success("Logado!");
+            router.push("/users");
+          }
+        })
+        .finally(() => setIsLoading(false));
     }
   };
 
   const socialAction = (action: string) => {
     setIsLoading(true);
 
-    // NextAuth Social SignIn
+    signIn(action, {
+      redirect: false,
+    })
+      .then((callback) => {
+        if (callback?.error) {
+          toast.error("Usuário ou senha inválidos.");
+        }
+        if (callback?.ok && !callback?.error) {
+          toast.success("Logado!");
+          router.push("/users");
+        }
+      })
+      .finally(() => setIsLoading(false));
   };
 
   return (
@@ -66,7 +111,7 @@ export function AuthForm() {
           )}
 
           <Input
-            id="e-mail"
+            id="email"
             label="E-mail"
             type="email"
             register={register}
