@@ -1,13 +1,13 @@
 "use client";
 
 import { Avatar } from "@/components/Avatar";
-import { Modal } from "@/components/Modal";
 import useOtherUser from "@/hooks/useOtherUser";
 import { Dialog, Transition } from "@headlessui/react";
 import { Conversation, User } from "@prisma/client";
 import { format } from "date-fns";
 import { Fragment, useMemo, useState } from "react";
 import { IoClose, IoTrash } from "react-icons/io5";
+import { ConfirmModal } from "./ConfirmModal";
 
 interface ProfileDrawerProps {
   isOpen: boolean;
@@ -19,7 +19,7 @@ interface ProfileDrawerProps {
 
 export function ProfileDrawer({ isOpen, onClose, data }: ProfileDrawerProps) {
   const otherUser = useOtherUser(data);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   const joinedDate = useMemo(() => {
     return format(new Date(otherUser.createdAt), "PP");
@@ -38,11 +38,11 @@ export function ProfileDrawer({ isOpen, onClose, data }: ProfileDrawerProps) {
 
   return (
     <>
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+      <ConfirmModal isOpen={confirmOpen} onClose={() => setConfirmOpen(false)}>
         <div className="bg-white p-5">
           <p>Hello</p>
         </div>
-      </Modal>
+      </ConfirmModal>
       <Transition.Root show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-50" onClose={onClose}>
           <Transition.Child
@@ -94,7 +94,7 @@ export function ProfileDrawer({ isOpen, onClose, data }: ProfileDrawerProps) {
                           </div>
                           <div className="flex gap-10 my-8">
                             <div
-                              onClick={() => setIsModalOpen(true)}
+                              onClick={() => setConfirmOpen(true)}
                               className="flex flex-col gap-3 items-center cursor-pointer hover:opacity-75"
                             >
                               <div className="w-10 h-10 bg-neutral-100 rounded-full flex items-center justify-center">
