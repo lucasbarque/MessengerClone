@@ -8,7 +8,7 @@
 
 Desenvolvimento do aplicativo Messenger do Facebook, usando as últimas tecnologias de desenvolvimento web. Esse projeto fullstack, aborda desde as funcionalidades visuais do projeto, bem como todo o compartamento de chat.
 
-## 🚀 Principais funcionalidades:
+## 🚀 Principais funcionalidades
 
 - Mensagens em Real-time usando Pusher;
 - Notificações e mensagens de alertas;
