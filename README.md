@@ -1,14 +1,14 @@
 # Clone Messenger Real-Time: Next.js 13, React, Tailwind, Prisma, MongoDB, NextAuth, Pusher (2023)
 
-# Projeto em desenvolvimento
+# 🪛 Projeto em desenvolvimento
 
 ![Preview](.github/capa.png)
 
-## Sobre o projeto
+## 🔖 Sobre o projeto
 
 Desenvolvimento do aplicativo Messenger do Facebook, usando as últimas tecnologias de desenvolvimento web. Esse projeto fullstack, aborda desde as funcionalidades visuais do projeto, bem como todo o compartamento de chat.
 
-## Principais funcionalidades:
+## 🚀 Principais funcionalidades:
 
 - Mensagens em Real-time usando Pusher;
 - Notificações e mensagens de alertas;
