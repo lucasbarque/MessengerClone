@@ -1,12 +1,12 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import axios from 'axios';
-import { signIn, useSession } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { BsGithub, BsGoogle } from 'react-icons/bs';
@@ -16,8 +16,6 @@ import { Button } from '@/components/Button';
 import { Input } from '@/components/inputs/Input';
 
 import { AuthSocialButton } from './AuthSocialButton';
-
-type Variant = 'LOGIN' | 'REGISTER';
 
 const formLoginSchema = yup.object({
   name: yup.string(),
@@ -36,11 +34,9 @@ interface LoginFormData {
   password: string;
 }
 
-export function AuthForm() {
-  const [variant, setVariant] = useState<Variant>('LOGIN');
+export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
 
-  const session = useSession();
   const router = useRouter();
 
   const {
@@ -56,50 +52,24 @@ export function AuthForm() {
     },
   });
 
-  useEffect(() => {
-    if (session?.status === 'authenticated') {
-      router.push('/users');
-    }
-  }, [session?.status, router]);
-
-  const toggleVariant = useCallback(() => {
-    if (variant === 'LOGIN') {
-      setVariant('REGISTER');
-    } else {
-      setVariant('LOGIN');
-    }
-  }, [variant]);
-
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
 
-    if (variant === 'REGISTER') {
-      axios
-        .post('/api/register', data)
-        .then(() => signIn('credentials', data))
-        .catch(() =>
-          toast.error('Ocorreu um erro. Tente novamente mais tarde!'),
-        )
-        .finally(() => setIsLoading(false));
-    }
+    signIn('credentials', {
+      ...data,
+      redirect: false,
+    })
+      .then((callback) => {
+        if (callback?.error) {
+          toast.error('Usuário ou senha inválidos.');
+        }
 
-    if (variant === 'LOGIN') {
-      signIn('credentials', {
-        ...data,
-        redirect: false,
+        if (callback?.ok && !callback?.error) {
+          toast.success('Logado!');
+          router.push('/users');
+        }
       })
-        .then((callback) => {
-          if (callback?.error) {
-            toast.error('Usuário ou senha inválidos.');
-          }
-
-          if (callback?.ok && !callback?.error) {
-            toast.success('Logado!');
-            router.push('/users');
-          }
-        })
-        .finally(() => setIsLoading(false));
-    }
+      .finally(() => setIsLoading(false));
   };
 
   const socialAction = (action: string) => {
@@ -124,16 +94,6 @@ export function AuthForm() {
     <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div className="rounded-sm bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
         <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-          {variant === 'REGISTER' && (
-            <Input
-              name="name"
-              label="Nome"
-              error={errors.name?.message}
-              disabled={isLoading}
-              control={control}
-            />
-          )}
-
           <Input
             name="email"
             control={control}
@@ -151,7 +111,7 @@ export function AuthForm() {
 
           <div>
             <Button disabled={isLoading} fullWidth type="submit">
-              {variant === 'LOGIN' ? 'Login' : 'Realizar cadastro'}
+              Login
             </Button>
           </div>
         </form>
@@ -179,15 +139,11 @@ export function AuthForm() {
             />
           </div>
         </div>
-        <div className="mt-6 flex flex-col items-center sm:flex-row justify-center gap-2 px-2 text-sm text-gray-500">
-          <div>
-            {variant === 'LOGIN'
-              ? 'Novo no Messanger?'
-              : 'Já possui uma conta?'}
-          </div>
-          <div onClick={toggleVariant} className="cursor-pointer underline">
-            {variant === 'LOGIN' ? 'Criar uma conta' : 'Voltar para o login'}
-          </div>
+        <div className="mt-6 flex flex-col items-center justify-center gap-2 px-2 text-sm text-gray-500 sm:flex-row">
+          <div>Novo no Messanger?</div>
+          <Link href="/register" className="underline">
+            Criar uma conta
+          </Link>
         </div>
       </div>
     </div>
