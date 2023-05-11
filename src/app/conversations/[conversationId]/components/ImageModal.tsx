@@ -1,7 +1,8 @@
-"use client";
+'use client';
 
-import { Modal } from "@/components/Modal";
-import Image from "next/image";
+import Image from 'next/image';
+
+import { Modal } from '@/components/Modal';
 
 interface ImageModalProps {
   isOpen?: boolean;
@@ -14,8 +15,8 @@ export function ImageModal({ src, isOpen, onClose }: ImageModalProps) {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="w-80 h-80">
-        <Image alt="Image" className="object-cover" fill src={src} />
+      <div className="h-80 w-80">
+        <Image alt="Image" className="object-contain" fill src={src} />
       </div>
     </Modal>
   );

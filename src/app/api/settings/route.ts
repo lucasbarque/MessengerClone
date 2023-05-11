@@ -1,6 +1,8 @@
-import { getCurrentUser } from "@/actions/getCurrentUser";
-import { NextResponse } from "next/server";
-import prisma from "@/libs/prismadb";
+import { NextResponse } from 'next/server';
+
+import { getCurrentUser } from '@/actions/getCurrentUser';
+
+import prisma from '@/libs/prismadb';
 
 export async function POST(request: Request) {
   try {
@@ -9,7 +11,7 @@ export async function POST(request: Request) {
     const { name, image } = body;
 
     if (!currentUser?.id) {
-      return new NextResponse("Unauthorized", { status: 401 });
+      return new NextResponse('Unauthorized', { status: 401 });
     }
 
     const updatedUser = await prisma.user.update({
@@ -24,7 +26,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(updatedUser);
   } catch (error: any) {
-    console.log(error, "ERROR_SETTINGS");
-    return new NextResponse("Internal Error", { status: 500 });
+    console.log(error, 'ERROR_SETTINGS');
+    return new NextResponse('Internal Error', { status: 500 });
   }
 }

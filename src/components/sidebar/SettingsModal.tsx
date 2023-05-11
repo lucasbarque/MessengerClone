@@ -1,16 +1,19 @@
-"use client";
+'use client';
 
-import { User } from "@prisma/client";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import { Modal } from "@/components/Modal";
-import { Input } from "@/components/inputs/Input";
-import Image from "next/image";
-import { CldUploadButton } from "next-cloudinary";
-import { Button } from "@/components/Button";
+import { useState } from 'react';
+
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+
+import { User } from '@prisma/client';
+import axios from 'axios';
+import { CldUploadButton } from 'next-cloudinary';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+
+import { Button } from '@/components/Button';
+import { Modal } from '@/components/Modal';
+import { Input } from '@/components/inputs/Input';
 
 interface SettingsModalProps {
   isOpen?: boolean;
@@ -39,10 +42,10 @@ export function SettingsModal({
     },
   });
 
-  const image = watch("image");
+  const image = watch('image');
 
   const handleUpload = (result: any) => {
-    setValue("image", result?.info?.secure_url, {
+    setValue('image', result?.info?.secure_url, {
       shouldValidate: true,
     });
   };
@@ -51,12 +54,12 @@ export function SettingsModal({
     setIsLoading(true);
 
     axios
-      .post("/api/settings", data)
+      .post('/api/settings', data)
       .then(() => {
         router.refresh();
         onClose();
       })
-      .catch(() => toast.error("Alguma coisa deu errado"))
+      .catch(() => toast.error('Alguma coisa deu errado'))
       .finally(() => setIsLoading(false));
   };
 
@@ -90,7 +93,7 @@ export function SettingsModal({
                     height={48}
                     className="rounded-full"
                     src={
-                      image || currentUser?.image || "/images/placeholder.jpg"
+                      image || currentUser?.image || '/images/placeholder.jpg'
                     }
                     alt="Avatar"
                   />

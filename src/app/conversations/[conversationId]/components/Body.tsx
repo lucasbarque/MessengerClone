@@ -1,12 +1,17 @@
-"use client";
+'use client';
 
-import { FullMessageType } from "@/@types/conversation";
-import useConversation from "@/hooks/useConversation";
-import { useEffect, useRef, useState } from "react";
-import { MessageBox } from "./MessageBox";
-import axios from "axios";
-import { pusherClient } from "@/libs/pusher";
-import { find } from "lodash";
+import { useEffect, useRef, useState } from 'react';
+
+import axios from 'axios';
+import { find } from 'lodash';
+
+import { FullMessageType } from '@/@types/conversation';
+
+import useConversation from '@/hooks/useConversation';
+
+import { pusherClient } from '@/libs/pusher';
+
+import { MessageBox } from './MessageBox';
 
 interface BodyProps {
   initialMessages: FullMessageType[];
@@ -45,17 +50,17 @@ export function Body({ initialMessages }: BodyProps) {
             return newMessage;
           }
           return currentMessage;
-        })
+        }),
       );
     };
 
-    pusherClient.bind("messages:new", messageHandler);
-    pusherClient.bind("message:update", updateMessageHandler);
+    pusherClient.bind('messages:new', messageHandler);
+    pusherClient.bind('message:update', updateMessageHandler);
 
     return () => {
       pusherClient.unsubscribe(conversationId);
-      pusherClient.unbind("messages:new", messageHandler);
-      pusherClient.unbind("message:update", updateMessageHandler);
+      pusherClient.unbind('messages:new', messageHandler);
+      pusherClient.unbind('message:update', updateMessageHandler);
     };
   }, [conversationId]);
 

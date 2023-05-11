@@ -1,11 +1,14 @@
-"use client";
+'use client';
 
-import { Avatar } from "@/components/Avatar";
-import { LoadingModal } from "@/components/LoadingModal";
-import { User } from "@prisma/client";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useCallback, useState } from 'react';
+
+import { useRouter } from 'next/navigation';
+
+import { User } from '@prisma/client';
+import axios from 'axios';
+
+import { Avatar } from '@/components/Avatar';
+import { LoadingModal } from '@/components/LoadingModal';
 
 interface UserBoxProps {
   data: User;
@@ -19,7 +22,7 @@ export function UserBox({ data }: UserBoxProps) {
     setIsLoading(true);
 
     axios
-      .post("/api/conversations", {
+      .post('/api/conversations', {
         userId: data.id,
       })
       .then((data) => {
@@ -34,12 +37,12 @@ export function UserBox({ data }: UserBoxProps) {
 
       <div
         onClick={handleClick}
-        className="w-full relative flex items-center space-x-3 bg-white p-3 hover:bg-neutral-100 rounded-lg transition cursor-pointer"
+        className="relative flex w-full cursor-pointer items-center space-x-3 rounded-lg bg-white p-3 transition hover:bg-neutral-100"
       >
         <Avatar user={data} />
         <div className="min-w-0 flex-1">
           <div className="focus:outline-none">
-            <div className="flex justify-between items-center mb-1">
+            <div className="mb-1 flex items-center justify-between">
               <p className="text-sm font-medium text-gray-900">{data.name}</p>
             </div>
           </div>

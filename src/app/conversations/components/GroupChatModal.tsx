@@ -1,15 +1,18 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/Button";
-import { Modal } from "@/components/Modal";
-import { Input } from "@/components/inputs/Input";
-import { Select } from "@/components/inputs/Select";
-import { User } from "@prisma/client";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
+import { useState } from 'react';
+
+import { useRouter } from 'next/navigation';
+
+import { User } from '@prisma/client';
+import axios from 'axios';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+
+import { Button } from '@/components/Button';
+import { Modal } from '@/components/Modal';
+import { Input } from '@/components/inputs/Input';
+import { Select } from '@/components/inputs/Select';
 
 interface GroupChatModalProps {
   users: User[];
@@ -33,18 +36,18 @@ export function GroupChatModal({
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
-      name: "",
+      name: '',
       members: [],
     },
   });
 
-  const members = watch("members");
+  const members = watch('members');
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
 
     axios
-      .post("/api/conversations", {
+      .post('/api/conversations', {
         ...data,
         isGroup: true,
       })
@@ -52,7 +55,7 @@ export function GroupChatModal({
         router.refresh();
         onClose();
       })
-      .catch(() => toast.error("Ocorreu algum erro."))
+      .catch(() => toast.error('Ocorreu algum erro.'))
       .finally(() => setIsLoading(false));
   };
 
@@ -84,7 +87,7 @@ export function GroupChatModal({
                   label: user.name,
                 }))}
                 onChange={(value) =>
-                  setValue("members", value, {
+                  setValue('members', value, {
                     shouldValidate: true,
                   })
                 }

@@ -1,4 +1,4 @@
-import prisma from "@/libs/prismadb";
+import prisma from '@/libs/prismadb';
 
 export async function getMessages(conversationId: string) {
   try {
@@ -11,7 +11,7 @@ export async function getMessages(conversationId: string) {
         seen: true,
       },
       orderBy: {
-        createdAt: "asc",
+        createdAt: 'asc',
       },
     });
 

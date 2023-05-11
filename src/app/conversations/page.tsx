@@ -1,15 +1,17 @@
-"use client";
+'use client';
 
-import useConversation from "@/hooks/useConversation";
-import { EmptyState } from "@/components/EmptyState";
-import clsx from "clsx";
+import clsx from 'clsx';
+
+import useConversation from '@/hooks/useConversation';
+
+import { EmptyState } from '@/components/EmptyState';
 
 export default function Conversation() {
   const { isOpen } = useConversation();
 
   return (
     <div
-      className={clsx("lg:pl-80 h-full lg:block", isOpen ? "block" : "hidden")}
+      className={clsx('h-full lg:block lg:pl-80', isOpen ? 'block' : 'hidden')}
     >
       <EmptyState />
     </div>

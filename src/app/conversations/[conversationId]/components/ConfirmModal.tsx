@@ -1,21 +1,26 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/Button";
-import { Modal } from "@/components/Modal";
-import useConversation from "@/hooks/useConversation";
-import { Dialog } from "@headlessui/react";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
-import { toast } from "react-hot-toast";
-import { FiAlertTriangle } from "react-icons/fi";
+import { useCallback, useState } from 'react';
+
+import { useRouter } from 'next/navigation';
+
+import { Dialog } from '@headlessui/react';
+import axios from 'axios';
+import { toast } from 'react-hot-toast';
+import { FiAlertTriangle } from 'react-icons/fi';
+
+import useConversation from '@/hooks/useConversation';
+
+import { Button } from '@/components/Button';
+import { Modal } from '@/components/Modal';
 
 interface ConfirmModalProps {
+  isGroup?: boolean;
   isOpen?: boolean;
   onClose: () => void;
 }
 
-export function ConfirmModal({ isOpen, onClose }: ConfirmModalProps) {
+export function ConfirmModal({ isOpen, onClose, isGroup }: ConfirmModalProps) {
   const router = useRouter();
   const { conversationId } = useConversation();
   const [isLoading, setIsLoading] = useState(false);
@@ -27,10 +32,10 @@ export function ConfirmModal({ isOpen, onClose }: ConfirmModalProps) {
       .delete(`/api/conversations/${conversationId}`)
       .then(() => {
         onClose();
-        router.push("/conversations");
+        router.push('/conversations');
         router.refresh();
       })
-      .catch(() => toast.error("Ocorreu um erro!"))
+      .catch(() => toast.error('Ocorreu um erro!'))
       .finally(() => setIsLoading(false));
   }, [conversationId, router, onClose]);
 
@@ -45,13 +50,14 @@ export function ConfirmModal({ isOpen, onClose }: ConfirmModalProps) {
             as="h3"
             className="text-base font-semibold leading-6 text-gray-900"
           >
-            Apagar conversa
+            {isGroup ? 'Apagar grupo' : 'Apagar conversa'}
           </Dialog.Title>
 
           <div className="mt-2">
             <p className="text-sm text-gray-500">
-              Você tem certeza que deseja apagar essa conversa? Essa ação não
-              pode ser desfeita.
+              Você tem certeza que deseja apagar{' '}
+              {isGroup ? 'esse grupo' : 'essa conversa'}? Essa ação não pode ser
+              desfeita.
             </p>
           </div>
         </div>

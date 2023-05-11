@@ -1,7 +1,9 @@
-"use client";
-import useConversation from "@/hooks/useConversation";
-import useRoutes from "@/hooks/useRoutes";
-import { MobileItem } from "./MobileItem";
+'use client';
+
+import useConversation from '@/hooks/useConversation';
+import useRoutes from '@/hooks/useRoutes';
+
+import { MobileItem } from './MobileItem';
 
 export function MobileFooter() {
   const routes = useRoutes();
@@ -12,7 +14,7 @@ export function MobileFooter() {
   }
 
   return (
-    <div className="fixed justify-between w-full bottom-0 z-40 flex items-center bg-white border-t-[1px] lg:hidden">
+    <div className="fixed bottom-0 z-40 flex w-full items-center justify-between border-t-[1px] bg-white lg:hidden">
       {routes.map((route) => (
         <MobileItem
           key={route.href}

@@ -1,0 +1,22 @@
+module.exports = {
+  printWidth: 80,
+  tabWidth: 2,
+  endOfLine: 'lf',
+  trailingComma: 'all',
+  singleQuote: true,
+  semi: true,
+  importOrderSeparation: true,
+  importOrderSortSpecifiers: true,
+  importOrder: [
+    '^react$',
+    '^next/(.*)$',
+    '<THIRD_PARTY_MODULES>',
+    '^@/@types/(.*)$',
+    '^@/contexts/(.*)$',
+    '^@/hooks/(.*)$',
+    '^@/libs/(.*)$',
+    '^@/components/(.*)$',
+    '^[./]',
+  ],
+  plugins: [require('prettier-plugin-tailwindcss')],
+};

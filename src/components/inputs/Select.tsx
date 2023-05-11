@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import ReactSelect from "react-select";
+import ReactSelect from 'react-select';
 
 interface SelectProps {
   label: string;
@@ -38,7 +38,7 @@ export function Select({
             }),
           }}
           classNames={{
-            control: () => "text-sm",
+            control: () => 'text-sm',
           }}
         />
       </div>

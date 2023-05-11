@@ -1,9 +1,11 @@
-import { getConversationById } from "@/actions/getConversationById";
-import { getMessages } from "@/actions/getMessages";
-import { EmptyState } from "@/components/EmptyState";
-import { Header } from "./components/Header";
-import { Body } from "./components/Body";
-import { Form } from "./components/Form";
+import { getConversationById } from '@/actions/getConversationById';
+import { getMessages } from '@/actions/getMessages';
+
+import { EmptyState } from '@/components/EmptyState';
+
+import { Body } from './components/Body';
+import { Form } from './components/Form';
+import { Header } from './components/Header';
 
 interface IParams {
   conversationId: string;
@@ -15,8 +17,8 @@ export default async function Conversation({ params }: { params: IParams }) {
 
   if (!conversation) {
     return (
-      <div className="lg:pl-80 h-full">
-        <div className="h-full flex flex-col">
+      <div className="h-full lg:pl-80">
+        <div className="flex h-full flex-col">
           <EmptyState />
         </div>
       </div>
@@ -24,8 +26,8 @@ export default async function Conversation({ params }: { params: IParams }) {
   }
 
   return (
-    <div className="lg:pl-80 h-full">
-      <div className="h-full flex flex-col">
+    <div className="h-full lg:pl-80">
+      <div className="flex h-full flex-col">
         <Header conversation={conversation} />
         <Body initialMessages={messages} />
         <Form />

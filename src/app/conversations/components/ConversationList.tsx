@@ -1,16 +1,23 @@
-"use client";
-import { FullConversationType } from "@/@types/conversation";
-import useConversation from "@/hooks/useConversation";
-import clsx from "clsx";
-import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
-import { MdOutlineGroupAdd } from "react-icons/md";
-import { ConversationBox } from "./ConversationBox";
-import { GroupChatModal } from "./GroupChatModal";
-import { User } from "@prisma/client";
-import { useSession } from "next-auth/react";
-import { pusherClient } from "@/libs/pusher";
-import { find } from "lodash";
+'use client';
+
+import { useEffect, useMemo, useState } from 'react';
+
+import { useRouter } from 'next/navigation';
+
+import { User } from '@prisma/client';
+import clsx from 'clsx';
+import { find } from 'lodash';
+import { useSession } from 'next-auth/react';
+import { MdOutlineGroupAdd } from 'react-icons/md';
+
+import { FullConversationType } from '@/@types/conversation';
+
+import useConversation from '@/hooks/useConversation';
+
+import { pusherClient } from '@/libs/pusher';
+
+import { ConversationBox } from './ConversationBox';
+import { GroupChatModal } from './GroupChatModal';
 
 interface ConversationListProps {
   initialItems: FullConversationType[];
@@ -57,7 +64,7 @@ export function ConversationList({
             };
           }
           return currentConversation;
-        })
+        }),
       );
     };
 
@@ -67,19 +74,19 @@ export function ConversationList({
       ]);
 
       if (conversationId === conversation.id) {
-        router.push("/conversations");
+        router.push('/conversations');
       }
     };
 
-    pusherClient.bind("conversation:new", newHandler);
-    pusherClient.bind("conversation:update", updateHandler);
-    pusherClient.bind("conversation:remove", removeHandler);
+    pusherClient.bind('conversation:new', newHandler);
+    pusherClient.bind('conversation:update', updateHandler);
+    pusherClient.bind('conversation:remove', removeHandler);
 
     return () => {
       pusherClient.unsubscribe(pusherKey);
-      pusherClient.unbind("conversation:new");
-      pusherClient.unbind("conversation:update", updateHandler);
-      pusherClient.unbind("conversation:remove", removeHandler);
+      pusherClient.unbind('conversation:new');
+      pusherClient.unbind('conversation:update', updateHandler);
+      pusherClient.unbind('conversation:remove', removeHandler);
     };
   }, [pusherKey, conversationId, router]);
 
@@ -92,15 +99,15 @@ export function ConversationList({
       />
       <aside
         className={clsx(
-          "fixed inset-y-0 pb-20 lb:pb-0 lg:left-20 lg:w-80 lg:block overflow-y-auto border-r border-gray-200",
-          isOpen ? "hidden" : "block w-full left-0"
+          'lb:pb-0 fixed inset-y-0 overflow-y-auto border-r border-gray-200 pb-20 lg:left-20 lg:block lg:w-80',
+          isOpen ? 'hidden' : 'left-0 block w-full',
         )}
       >
         <div className="px-5">
-          <div className="flex justify-between mb-4 pt-4">
-            <div className="text-2xl font-bold text-neutral-800">Messages</div>
+          <div className="mb-4 flex justify-between pt-4">
+            <div className="text-2xl font-bold text-neutral-800">Mensagens</div>
             <div
-              className="rounded-full p-2 bg-gray-100 text-gray-600 cursor-pointer hover:opacity-75 transition"
+              className="cursor-pointer rounded-full bg-gray-100 p-2 text-gray-600 transition hover:opacity-75"
               onClick={() => setIsModalOpen(true)}
             >
               <MdOutlineGroupAdd size={20} />

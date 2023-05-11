@@ -1,11 +1,15 @@
-"use client";
+'use client';
 
-import useRoutes from "@/hooks/useRoutes";
-import { useState } from "react";
-import { DesktopItem } from "./DesktopItem";
-import { User } from "@prisma/client";
-import { Avatar } from "@/components/Avatar";
-import { SettingsModal } from "./SettingsModal";
+import { useState } from 'react';
+
+import { User } from '@prisma/client';
+
+import useRoutes from '@/hooks/useRoutes';
+
+import { Avatar } from '@/components/Avatar';
+
+import { DesktopItem } from './DesktopItem';
+import { SettingsModal } from './SettingsModal';
 
 interface DesktopSidebarProps {
   currentUser: User;
@@ -14,7 +18,6 @@ interface DesktopSidebarProps {
 export function DesktopSidebar({ currentUser }: DesktopSidebarProps) {
   const routes = useRoutes();
   const [isOpen, setIsOpen] = useState(false);
-  console.log(currentUser);
 
   return (
     <>
@@ -23,7 +26,7 @@ export function DesktopSidebar({ currentUser }: DesktopSidebarProps) {
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
       />
-      <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-40 lg:w-20 xl:px-6 lg:overflow-y-auto lg:bg-white lg:border-r-[1px] lg:pb-4 lg:flex lg:flex-col justify-between">
+      <div className="hidden justify-between lg:fixed lg:inset-y-0 lg:left-0 lg:z-40 lg:flex lg:w-20 lg:flex-col lg:overflow-y-auto lg:border-r-[1px] lg:bg-white lg:pb-4 xl:px-6">
         <nav className="mt-4 flex flex-col justify-between">
           <ul className="flex flex-col items-center space-y-1" role="list">
             {routes.map((item) => (
@@ -38,9 +41,9 @@ export function DesktopSidebar({ currentUser }: DesktopSidebarProps) {
             ))}
           </ul>
         </nav>
-        <nav className="mt-4 flex flex-col justify-between items-center">
+        <nav className="mt-4 flex flex-col items-center justify-between">
           <div
-            className="cursor-pointer hover:opacity-75 transtion"
+            className="transtion cursor-pointer hover:opacity-75"
             onClick={() => setIsOpen(true)}
           >
             <Avatar user={currentUser} />

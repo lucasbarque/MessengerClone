@@ -1,4 +1,4 @@
-import { LoadingModal } from "@/components/LoadingModal";
+import { LoadingModal } from '@/components/LoadingModal';
 
 export default function Loading() {
   return <LoadingModal />;

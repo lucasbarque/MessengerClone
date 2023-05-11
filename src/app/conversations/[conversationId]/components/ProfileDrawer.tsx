@@ -1,15 +1,20 @@
-"use client";
+'use client';
 
-import { Avatar } from "@/components/Avatar";
-import useOtherUser from "@/hooks/useOtherUser";
-import { Dialog, Transition } from "@headlessui/react";
-import { Conversation, User } from "@prisma/client";
-import { format } from "date-fns";
-import { Fragment, useMemo, useState } from "react";
-import { IoClose, IoTrash } from "react-icons/io5";
-import { ConfirmModal } from "./ConfirmModal";
-import { AvatarGroup } from "@/components/AvatarGroup";
-import { useActiveList } from "@/hooks/useActiveList";
+import { Fragment, useMemo, useState } from 'react';
+
+import { Dialog, Transition } from '@headlessui/react';
+import { Conversation, User } from '@prisma/client';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+import { IoClose, IoTrash } from 'react-icons/io5';
+
+import { useActiveList } from '@/hooks/useActiveList';
+import useOtherUser from '@/hooks/useOtherUser';
+
+import { Avatar } from '@/components/Avatar';
+import { AvatarGroup } from '@/components/AvatarGroup';
+
+import { ConfirmModal } from './ConfirmModal';
 
 interface ProfileDrawerProps {
   isOpen: boolean;
@@ -26,7 +31,9 @@ export function ProfileDrawer({ isOpen, onClose, data }: ProfileDrawerProps) {
   const isActive = members.indexOf(otherUser?.email!) !== -1;
 
   const joinedDate = useMemo(() => {
-    return format(new Date(otherUser.createdAt), "PP");
+    return format(new Date(otherUser.createdAt), "dd 'de' MMMM yyyy", {
+      locale: ptBR,
+    });
   }, [otherUser.createdAt]);
 
   const title = useMemo(() => {
@@ -37,13 +44,14 @@ export function ProfileDrawer({ isOpen, onClose, data }: ProfileDrawerProps) {
     if (data.isGroup) {
       return `${data.users.length} membros`;
     }
-    return isActive ? "Online" : "Offline";
+    return isActive ? 'Online' : 'Offline';
   }, [data, isActive]);
 
   return (
     <>
       <ConfirmModal
         isOpen={confirmOpen}
+        isGroup={data.isGroup!}
         onClose={() => setConfirmOpen(false)}
       />
 
@@ -100,12 +108,12 @@ export function ProfileDrawer({ isOpen, onClose, data }: ProfileDrawerProps) {
                           <div className="text-sm text-gray-500">
                             {statusText}
                           </div>
-                          <div className="flex gap-10 my-8">
+                          <div className="my-8 flex gap-10">
                             <div
                               onClick={() => setConfirmOpen(true)}
-                              className="flex flex-col gap-3 items-center cursor-pointer hover:opacity-75"
+                              className="flex cursor-pointer flex-col items-center gap-3 hover:opacity-75"
                             >
-                              <div className="w-10 h-10 bg-neutral-100 rounded-full flex items-center justify-center">
+                              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100">
                                 <IoTrash size={20} />
                               </div>
                               <div className="text-sm font-light text-neutral-600">
@@ -123,7 +131,7 @@ export function ProfileDrawer({ isOpen, onClose, data }: ProfileDrawerProps) {
                                   <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
                                     {data.users
                                       .map((user) => user.email)
-                                      .join(", ")}
+                                      .join(' ')}
                                   </dd>
                                 </div>
                               )}
@@ -141,8 +149,8 @@ export function ProfileDrawer({ isOpen, onClose, data }: ProfileDrawerProps) {
                                 <>
                                   <hr />
                                   <div>
-                                    <dt className="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0">
-                                      Joined
+                                    <dt className="text-sm font-medium text-gray-500 sm:flex-shrink-0">
+                                      Ingressou na plataforma em
                                     </dt>
                                     <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
                                       <time dateTime={joinedDate}>

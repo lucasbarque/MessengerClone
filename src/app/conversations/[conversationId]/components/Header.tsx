@@ -1,14 +1,19 @@
-"use client";
+'use client';
 
-import { Avatar } from "@/components/Avatar";
-import useOtherUser from "@/hooks/useOtherUser";
-import { Conversation, User } from "@prisma/client";
-import Link from "next/link";
-import { useMemo, useState } from "react";
-import { HiChevronLeft, HiEllipsisHorizontal } from "react-icons/hi2";
-import { ProfileDrawer } from "./ProfileDrawer";
-import { AvatarGroup } from "@/components/AvatarGroup";
-import { useActiveList } from "@/hooks/useActiveList";
+import { useMemo, useState } from 'react';
+
+import Link from 'next/link';
+
+import { Conversation, User } from '@prisma/client';
+import { HiChevronLeft, HiEllipsisHorizontal } from 'react-icons/hi2';
+
+import { useActiveList } from '@/hooks/useActiveList';
+import useOtherUser from '@/hooks/useOtherUser';
+
+import { Avatar } from '@/components/Avatar';
+import { AvatarGroup } from '@/components/AvatarGroup';
+
+import { ProfileDrawer } from './ProfileDrawer';
 
 interface HeaderProps {
   conversation: Conversation & {
@@ -27,7 +32,7 @@ export function Header({ conversation }: HeaderProps) {
       return `${conversation.users.length} membros`;
     }
 
-    return isActive ? "Online" : "Offline";
+    return isActive ? 'Online' : 'Offline';
   }, [conversation, isActive]);
 
   return (
@@ -37,10 +42,10 @@ export function Header({ conversation }: HeaderProps) {
         isOpen={drawerOpen}
         onClose={() => setDrawerOpen(false)}
       />
-      <div className="bg-white w-full flex border-b-[1px] sm:px-4 py-3 px-4 lg:px-6 justify-between items-center shadow-sm">
-        <div className="flex gap-3 items-center">
+      <div className="flex w-full items-center justify-between border-b-[1px] bg-white px-4 py-3 shadow-sm sm:px-4 lg:px-6">
+        <div className="flex items-center gap-3">
           <Link
-            className="lg:hidden block text-sky-500 hover:text-sky-600 transition cursor-pointer"
+            className="block cursor-pointer text-sky-500 transition hover:text-sky-600 lg:hidden"
             href="/conversations"
           >
             <HiChevronLeft size={32} />
@@ -61,7 +66,7 @@ export function Header({ conversation }: HeaderProps) {
         <HiEllipsisHorizontal
           size={32}
           onClick={() => setDrawerOpen(true)}
-          className="text-sky-500 cursor-pointer hover:text-sky-600 transition"
+          className="cursor-pointer text-sky-500 transition hover:text-sky-600"
         />
       </div>
     </>
