@@ -4,10 +4,12 @@ import { useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
+import { yupResolver } from '@hookform/resolvers/yup';
 import { User } from '@prisma/client';
 import axios from 'axios';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
+import * as yup from 'yup';
 
 import { Button } from '@/components/Button';
 import { Modal } from '@/components/Modal';
@@ -20,6 +22,14 @@ interface GroupChatModalProps {
   onClose: () => void;
 }
 
+const formChatModalSchema = yup.object({
+  name: yup.string(),
+});
+interface ChatModalFormData {
+  name?: string;
+  members: [];
+}
+
 export function GroupChatModal({
   users,
   isOpen,
@@ -29,12 +39,13 @@ export function GroupChatModal({
   const [isLoading, setIsLoading] = useState(false);
 
   const {
-    register,
+    control,
     handleSubmit,
     setValue,
     watch,
     formState: { errors },
-  } = useForm<FieldValues>({
+  } = useForm<ChatModalFormData>({
+    resolver: yupResolver(formChatModalSchema),
     defaultValues: {
       name: '',
       members: [],
@@ -72,12 +83,11 @@ export function GroupChatModal({
             </p>
             <div className="mt-10 flex flex-col gap-y-8">
               <Input
-                register={register}
+                name="name"
                 label="Nome"
-                id="name"
+                error={errors.name?.message}
                 disabled={isLoading}
-                required
-                errors={errors}
+                control={control}
               />
               <Select
                 disabled={isLoading}
@@ -86,7 +96,7 @@ export function GroupChatModal({
                   value: user.id,
                   label: user.name,
                 }))}
-                onChange={(value) =>
+                onChange={(value: any) =>
                   setValue('members', value, {
                     shouldValidate: true,
                   })

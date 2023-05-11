@@ -5,11 +5,13 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
+import { yupResolver } from '@hookform/resolvers/yup';
 import { User } from '@prisma/client';
 import axios from 'axios';
 import { CldUploadButton } from 'next-cloudinary';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
+import * as yup from 'yup';
 
 import { Button } from '@/components/Button';
 import { Modal } from '@/components/Modal';
@@ -21,6 +23,14 @@ interface SettingsModalProps {
   currentUser: User;
 }
 
+const formSettingsSchema = yup.object({
+  name: yup.string(),
+});
+interface SettingsFormData {
+  name?: string;
+  image?: string;
+}
+
 export function SettingsModal({
   isOpen,
   onClose,
@@ -30,15 +40,16 @@ export function SettingsModal({
   const [isLoading, setIsLoading] = useState(false);
 
   const {
-    register,
+    control,
     handleSubmit,
     setValue,
     watch,
     formState: { errors },
-  } = useForm<FieldValues>({
+  } = useForm<SettingsFormData>({
+    resolver: yupResolver(formSettingsSchema),
     defaultValues: {
-      name: currentUser?.name,
-      image: currentUser?.image,
+      name: currentUser?.name!,
+      image: currentUser?.image!,
     },
   });
 
@@ -76,12 +87,11 @@ export function SettingsModal({
             </p>
             <div className="mt-10 flex flex-col gap-y-8">
               <Input
-                disabled={isLoading}
+                name="name"
                 label="Nome"
-                id="name"
-                errors={errors}
-                required
-                register={register}
+                error={errors.name?.message}
+                disabled={isLoading}
+                control={control}
               />
               <div>
                 <label className="block text-sm font-medium leading-6 text-gray-900">
